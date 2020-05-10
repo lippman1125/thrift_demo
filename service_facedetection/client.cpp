@@ -48,7 +48,10 @@ int main(int argc, char **argv){
     ostringstream ss;
 
     stdcxx::shared_ptr<TSocket> socket(new TSocket("localhost",9090));
-    stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+    //TSimpleServer, client use TBufferedTransport
+    //stdcxx::shared_ptr<TTransport> transport(new TBufferedTransport(socket));
+    //TNonblockingServer, client use TFramedTransport
+    stdcxx::shared_ptr<TTransport> transport(new TFramedTransport(socket));
     stdcxx::shared_ptr<TProtocol> protocol(new TBinaryProtocol(transport));
 
     transport->open();
