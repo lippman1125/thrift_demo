@@ -37,7 +37,7 @@ SERVER_LIBS=${ALGO_LIBS}  \
 CXXFLAGS=${INCLUDES}
 LDFLAGS=-pthread -ldl
 
-all: client client_img server
+all: client client_img client_parall server
 
 ${THRIFT_SVR}:%.o:%.cpp
 	$(CXX) ${CXXFLAGS}  -c $< -o $@
@@ -61,12 +61,12 @@ client:${THRIFT_SVR} client.o
 client_img:${THRIFT_SVR} client_img.o
 	$(CXX) -o $@ $^ ${CXXFLAGS} ${LDFLAGS} ${CLIENT_LIBS} ${FEAT_LIBS} ${OPENCV_LIBS} ${CAFFE_LIBS}
 
-client_batch_parall:${THRIFT_SVR} client_batch_parall.o
+client_parall:${THRIFT_SVR} client_parall.o
 	$(CXX) -o $@ $^ ${CXXFLAGS} ${LDFLAGS} ${CLIENT_LIBS}
 
 server:${THRIFT_SVR} ${ALGO_SRV} server.o
 	$(CXX) -o $@ $^ ${CXXFLAGS} ${LDFLAGS} ${SERVER_LIBS}
 
 clean:
-	$(RM) *.o ./gen-cpp/*.o  client client_img server
+	$(RM) *.o ./gen-cpp/*.o  client client_img client_parall server
 
